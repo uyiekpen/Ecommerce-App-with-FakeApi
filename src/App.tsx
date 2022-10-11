@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { authData } from './Components/Global/Global'
+import Header from './Components/Header'
+import Home from './Components/Home'
+import Productpage from './Components/Productpage'
+import SignUp from './Components/SignUp'
+import {useRecoilValue} from "recoil"
+import { ProtectedRoutes } from './Components/ProtectedRoutes'
 
-function App() {
+const App = () => {
+  
+  const user = useRecoilValue(authData)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+    {user ? <Header/> : null}
+      <Routes>
+        <Route path="/" element = {<Home/>}/>
+        <Route path="/display" element = {<ProtectedRoutes/>}/>
+      </Routes>
+      
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
